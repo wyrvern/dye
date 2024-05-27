@@ -33,22 +33,22 @@ class dye
 	
 	public int write_file_list () 
 	{
-		try
-		{
-			FileWriter fileWriter = new FileWriter(output_file_name);
+	    try
+            {
+	        FileWriter fileWriter = new FileWriter(output_file_name);
 			
-			for (String str : output)
-			{
-				fileWriter.write(str + System.lineSeparator());
-			}
-			fileWriter.close();
+                for (String str : output)
+	        {
+		    fileWriter.write(str + System.lineSeparator());
+		}
+		fileWriter.close();
+            }
+	    catch (Exception e)
+	    {
+	        System.out.println (e);
+            }
+	    return 1;
         }
-		catch (Exception e)
-		{
-			System.out.println (e);
-        }
-		return 1;
-    }
 	
 	// -------------------------------------------------------------;
 	// @read_file_list - read values in from stdin.
@@ -56,19 +56,19 @@ class dye
 
 	public int read_file_list () 
 	{
-		Path file_path = Paths.get(".", input_file_name);
-		Charset charset = Charset.forName("UTF-8");
+	    Path file_path = Paths.get(".", input_file_name);
+	    Charset charset = Charset.forName("UTF-8");
 
-		try
-		{
-			lines = Files.readAllLines(file_path, charset);
-		}
-		catch (Exception e)
-		{
-			System.out.println (e);
-        }
-		return 1;
-    }
+	    try
+	    {
+	        lines = Files.readAllLines(file_path, charset);
+	    }
+	    catch (Exception e)
+	    {
+                System.out.println (e);
+            }
+            return 1;
+	}
 	
 	// -------------------------------------------------------------;
 	// @list_sorted - sort through the list, -- append values to list.
@@ -76,54 +76,53 @@ class dye
 	
 	public int list_sorted () 
 	{
-        int n = lines.size();
+            int n = lines.size();
        
-        String temp;
-		String [] t;
-		String [] f = new String[lines.size()];
+            String temp;
+	    String [] t;
+	    String [] f = new String[lines.size()];
 		
-		ArrayList<String> c = new ArrayList<String>();
+	    ArrayList<String> c = new ArrayList<String>();
 
-        for (int i = 0; i < n; i++) 
-		{
-			t    = lines.get(i).split(" ");
-			f[i] = lines.get(i);
+            for (int i = 0; i < n; i++) 
+	    {
+	        t    = lines.get(i).split(" ");
+		f[i] = lines.get(i);
 			
-			c.add (t[t.length - 1]);
-		}  
-        String[] str = new String[c.size()];
+	        c.add (t[t.length - 1]);
+	    }  
+            String[] str = new String[c.size()];
  
-        for (int i = 0; i < c.size(); i++) 
-		{
-            str[i] = c.get(i);
-        }	
+            for (int i = 0; i < c.size(); i++) 
+	    {
+                str[i] = c.get(i);
+            }	
 
-        for (int i = 0; i < n; i++) 
-		{
-            for (int j = i + 1; j < n; j++)
-			{               
-                if (str[i].compareTo(str[j]) > 0) 
-				{
-                    temp = str[i];
-                    str[i] = str[j];
-                    str[j] = temp;
+            for (int i = 0; i < n; i++) 
+	    {
+                for (int j = i + 1; j < n; j++)
+	        {               
+                    if (str[i].compareTo(str[j]) > 0) 
+		    {
+                        temp = str[i];
+                        str[i] = str[j];
+                        str[j] = temp;
+                    }
                 }
             }
-        }
 		
-        for (int i = 0; i < n; i++) 
+            for (int i = 0; i < n; i++) 
+	    {
+	        for (int s = 0; s < n; s++) 
 		{
-			for (int s = 0; s < n; s++) 
-			{
-				if (f[s].contains(str[i]))
-				{
-					System.out.println(f[s]);
-					output.add (f[s]);
-				}
-			}
-        }
-		
-		return 1;
+		    if (f[s].contains(str[i]))
+		    {
+		        System.out.println(f[s]);
+		        output.add (f[s]);
+		    }
+	        }
+            }
+            return 1;
 	}
 	
 	// -------------------------------------------------------------;
@@ -132,43 +131,43 @@ class dye
 
 	public boolean parse_arguments (String[] args) 
 	{
-		if (args.length > 0) 
-		{
-			input_file_name = args[0];
-			return true;
-		} 
-		else
-		{
-            return false;
-		}
-    }
+	    if (args.length > 0) 
+	    {
+	        input_file_name = args[0];
+		return true;
+	    } 
+	    else
+	    {
+                return false;
+	    }
+        }
 	
 	
 	// -------------------------------------------------------------;
 	// @main - entry point. 
 	// -------------------------------------------------------------;
 	
-    public static void main(String[] args)
-    {
-		try
+    	public static void main(String[] args)
+    	{
+	    try
+	    {
+	        dye c = new dye();
+			
+	        if (c.parse_arguments (args)) 
 		{
-			dye c = new dye();
-			
-			if (c.parse_arguments (args)) 
-			{
-				c.read_file_list ();
-				c.list_sorted ();
-				c.write_file_list ();
-			}
-			else 
-			{
-				System.out.println("Please provide a relevant input file.");
-			}
-			
+	            c.read_file_list ();
+		    c.list_sorted ();
+		    c.write_file_list ();
 		}
-		catch (Exception e)
+		else 
 		{
-			System.out.println (e);
+		    System.out.println("Please provide a relevant input file.");
+		}
+			
+	    }
+	    catch (Exception e)
+	    {
+	        System.out.println (e);
+            }
         }
     }
-}
